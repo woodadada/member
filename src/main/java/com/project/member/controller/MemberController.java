@@ -6,9 +6,7 @@ import com.project.member.model.request.MemberPasswordRequest;
 import com.project.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,25 +42,25 @@ public class MemberController {
 
     // 회원 가입
     @PostMapping("/join")
-    public ResponseEntity<?> joinMember(@Valid MemberJoinRequest memberJoinRequest){
+    public ResponseEntity<?> joinMember(@Valid @RequestBody MemberJoinRequest memberJoinRequest){
         return ResponseEntity.ok(memberService.createMember(memberJoinRequest));
     }
 
     // 인증 문자
-    @PostMapping("/sms")
-    public ResponseEntity<?> pushSms(@Valid MemberJoinRequest memberJoinRequest){
-        return ResponseEntity.ok(memberService.createMember(memberJoinRequest));
-    }
+//    @PostMapping("/sms")
+//    public ResponseEntity<?> pushSms(@Valid @RequestBody MemberJoinRequest memberJoinRequest){
+//        return ResponseEntity.ok(memberService.createMember(memberJoinRequest));
+//    }
 
     // 비밀번호 변경
     @PostMapping("/update-password")
-    public ResponseEntity<?> updatePassword(@Valid MemberPasswordRequest memberJoinRequest){
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody MemberPasswordRequest memberJoinRequest){
         return ResponseEntity.ok(memberService.updatePassword(memberJoinRequest));
     }
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<?> loginMember(@Valid MemberLoginRequest memberLoginRequest){
+    public ResponseEntity<?> loginMember(@Valid @RequestBody MemberLoginRequest memberLoginRequest){
         return ResponseEntity.ok(memberService.loginMember(memberLoginRequest));
     }
 

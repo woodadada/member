@@ -87,7 +87,7 @@ public class MemberService {
         // 인증 후 비밀번호 변경
         Optional<Member> byEmail = memberRepository.findByEmail(memberPasswordRequest.getEmail());
         if(byEmail.isPresent()) {
-            throw new SiteException(ErrorCode.EMAIL_NOT_FOUNT);
+            throw new SiteException(ErrorCode.MEMBER_NOT_FOUNT);
         }
         Member member = byEmail.get();
         String rawPassword = memberPasswordRequest.getPassword();
@@ -111,6 +111,10 @@ public class MemberService {
                 .build();
 
         return memberDto;
+    }
+
+    public Optional<Member> getMemberByPhoneNumber(String phoneNumber) {
+        return memberRepository.findByPhoneNumber(phoneNumber);
     }
 }
 

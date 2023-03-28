@@ -27,4 +27,16 @@ public class ErrorResponse {
                         .build()
                 );
     }
+
+    public static ResponseEntity<Object> toResponseEntity(ErrorCode errorCode, String errorString) {
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(ErrorResponse.builder()
+                        .status(errorCode.getHttpStatus().value())
+                        .error(errorCode.getHttpStatus().name())
+                        .code(errorCode.name())
+                        .message(errorString)
+                        .build()
+                );
+    }
 }

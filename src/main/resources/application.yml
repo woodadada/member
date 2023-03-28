@@ -21,5 +21,10 @@ spring:
     password:
 jwt:
     secret-key: Vlw3Ey2VBsY2t9V7zq57TejMn2VUyzb7lYcfPQye08f7M23GVA9XkHa
-naver:
-    key:dwdwdwd
+api:
+  naver:
+      sms:
+         accessKey: 0RqQ7nAAGbEg2n5vcmPc
+         secretKey: oqe1ZMxOaxvZ4l0Z8EBp7HWWE1rteQTGofRvwK5p
+         serviceId: ncp:sms:kr:276519072940:sms_practice
+         senderPhone: 01075703950

@@ -22,7 +22,9 @@ public enum DictionaryKey {
     PAGE("page"),
     SIZE("size"),
     EMAIL("email"),
-    BEARER("Bearer")
+    BEARER("Bearer"),
+    Y("Y"),
+    N("N")
     ;
 
     private final String key;

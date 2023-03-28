@@ -37,15 +37,12 @@ public class Member {
 
     private String phoneNumber;
 
-//    private String role;
-
     public Member(MemberJoinRequest memberJoinRequest, String encPassword) {
         this.name = memberJoinRequest.getName();
         this.password = encPassword;
         this.nickName = memberJoinRequest.getNickName();
         this.email = memberJoinRequest.getEmail();
         this.phoneNumber = memberJoinRequest.getPhoneNumber();
-//        this.role = "ROLE_USER";
     }
 
     public void updatePassword(String password) {

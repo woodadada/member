@@ -51,8 +51,13 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/api/members/login", "/api/members/change-password", "/api/members/join").permitAll()
                 .antMatchers("/api/members/info").authenticated()
+                .anyRequest().permitAll()
+//                .antMatchers("/api/members/login"
+//                        , "/api/members/change-password"
+//                        , "/api/members/join"
+//                        , "/api/sms/join"
+//                        , "/api/sms/password").permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용

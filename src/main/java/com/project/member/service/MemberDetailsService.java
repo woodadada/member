@@ -33,7 +33,7 @@ public class MemberDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new SiteException(ErrorCode.EMAIL_NOT_FOUNT));
+                .orElseThrow(() -> new SiteException(ErrorCode.MEMBER_NOT_FOUNT));
 
         if(member != null) {
             return new MemberDetails(member);
