@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 @Data
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class MessagesRequest {
     private String to;

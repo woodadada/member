@@ -78,7 +78,7 @@ public class JwtUtil {
     public Authentication getAuthentication(String token) {
         String email = this.getEmail(token);
         UserDetails userDetails = memberDetailsService.loadUserByUsername(email);
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     public String getEmail(String token) {

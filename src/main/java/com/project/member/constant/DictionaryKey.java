@@ -24,7 +24,9 @@ public enum DictionaryKey {
     EMAIL("email"),
     BEARER("Bearer"),
     Y("Y"),
-    N("N")
+    N("N"),
+    JOIN("join"),
+    PASSWORD("password")
     ;
 
     private final String key;

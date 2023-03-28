@@ -31,6 +31,8 @@ public class SmsAuthentication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    String phoneNumber;
+
     String email;
 
     String numberCode;

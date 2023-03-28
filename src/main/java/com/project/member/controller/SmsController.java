@@ -50,8 +50,13 @@ public class SmsController {
         return ResponseEntity.ok(smsService.sendSmsNumberCodeByUpdatePassword(memberSmsRequest));
     }
 
-    @PostMapping("/authentication")
-    public ResponseEntity<?> authenticationSms(@Valid @RequestBody MemberSmsRequest memberSmsRequest) {
-        return ResponseEntity.ok(smsService.updateSmsAuthenticationYn(memberSmsRequest));
+    @PostMapping("/authentication/join")
+    public ResponseEntity<?> authenticationJoinSms(@Valid @RequestBody MemberSmsRequest memberSmsRequest) {
+        return ResponseEntity.ok(smsService.updateJoinSmsAuthenticationYn(memberSmsRequest));
+    }
+
+    @PostMapping("/authentication/password")
+    public ResponseEntity<?> authenticationPasswordSms(@Valid @RequestBody MemberSmsRequest memberSmsRequest) {
+        return ResponseEntity.ok(smsService.updatePasswordSmsAuthenticationYn(memberSmsRequest));
     }
 }

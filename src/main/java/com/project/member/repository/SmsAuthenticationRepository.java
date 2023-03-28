@@ -24,7 +24,9 @@ public interface SmsAuthenticationRepository extends JpaRepository<SmsAuthentica
     Optional<SmsAuthentication> findByEmail(String email);
 
     Optional<SmsAuthentication> findByEmailAndNumberCode(String email, String numberCode);
+    Optional<SmsAuthentication> findByPhoneNumberAndNumberCode(String phoneNumber, String numberCode);
 
+    Optional<SmsAuthentication> findByPhoneNumberAndAuthenticationYn(String phoneNumber, String authenticationYn);
     List<SmsAuthentication> findAllByAuthenticationYn(String authenticationYn);
 
 }

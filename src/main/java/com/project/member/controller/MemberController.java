@@ -31,26 +31,11 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    /**
-     * 회원 가입
-     *  인증
-     * 비밀번호 변경
-     *  인증
-     * 로그인
-     * 회원정보 조회
-     */
-
     // 회원 가입
     @PostMapping("/join")
     public ResponseEntity<?> joinMember(@Valid @RequestBody MemberJoinRequest memberJoinRequest){
         return ResponseEntity.ok(memberService.createMember(memberJoinRequest));
     }
-
-    // 인증 문자
-//    @PostMapping("/sms")
-//    public ResponseEntity<?> pushSms(@Valid @RequestBody MemberJoinRequest memberJoinRequest){
-//        return ResponseEntity.ok(memberService.createMember(memberJoinRequest));
-//    }
 
     // 비밀번호 변경
     @PostMapping("/update-password")

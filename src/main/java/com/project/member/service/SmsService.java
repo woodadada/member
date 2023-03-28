@@ -2,6 +2,7 @@ package com.project.member.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.member.constant.DictionaryKey;
 import com.project.member.constant.ErrorCode;
 import com.project.member.exception.SiteException;
 import com.project.member.model.entity.Member;
@@ -87,8 +88,7 @@ public class SmsService {
 
         // sms 인증 저장
         if(StringUtils.equals(smsResponse.getStatusCode(), String.valueOf(HttpStatus.ACCEPTED.value()))) {
-            Member member = memberByPhoneNumber.get();
-            smsAuthenticationService.createSmsAuthentication(member.getEmail(), numberCode);
+            smsAuthenticationService.createSmsAuthentication(memberSmsRequest.getPhoneNumber(), null, numberCode);
         }
         return smsResponse;
     }
@@ -108,7 +108,7 @@ public class SmsService {
 
         // sms 인증 저장
         if(StringUtils.equals(smsResponse.getStatusCode(), String.valueOf(HttpStatus.ACCEPTED.value()))) {
-            smsAuthenticationService.createSmsAuthentication(member.getEmail(), numberCode);
+            smsAuthenticationService.createSmsAuthentication(member.getPhoneNumber(), member.getEmail(), numberCode);
         }
         return smsResponse;
     }
@@ -145,7 +145,7 @@ public class SmsService {
     }
 
     @Transactional
-    public SmsAuthentication updateSmsAuthenticationYn(MemberSmsRequest memberSmsRequest) {
+    public SmsAuthentication updatePasswordSmsAuthenticationYn(MemberSmsRequest memberSmsRequest) {
         if(StringUtils.isBlank(memberSmsRequest.getNumberCode())) {
             throw new SiteException(ErrorCode.INVALID_NUMBER_CODE);
         }
@@ -156,7 +156,15 @@ public class SmsService {
         }
 
         Member member = byPhoneNumber.get();
-        return smsAuthenticationService.updateSmsAuthentication(member.getEmail(), memberSmsRequest.getNumberCode());
+        return smsAuthenticationService.updateSmsAuthentication(member.getPhoneNumber(), member.getEmail(), memberSmsRequest.getNumberCode(), DictionaryKey.PASSWORD.getKey());
+    }
+
+    @Transactional
+    public SmsAuthentication updateJoinSmsAuthenticationYn(MemberSmsRequest memberSmsRequest) {
+        if(StringUtils.isBlank(memberSmsRequest.getNumberCode())) {
+            throw new SiteException(ErrorCode.INVALID_NUMBER_CODE);
+        }
+        return smsAuthenticationService.updateSmsAuthentication(memberSmsRequest.getPhoneNumber(), null, memberSmsRequest.getNumberCode(), DictionaryKey.JOIN.getKey());
     }
 
     public String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException, InvalidKeyException {
