@@ -21,3 +21,5 @@ spring:
     password:
 jwt:
     secret-key: Vlw3Ey2VBsY2t9V7zq57TejMn2VUyzb7lYcfPQye08f7M23GVA9XkHa
+naver:
+    key:dwdw
