@@ -1,0 +1,23 @@
+spring:
+  sql:
+      init:
+        mode: always
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /member-db;MODE=MYSQL
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem://localhost/~/member-db;MODE=MYSQL
+    username: sa
+    password:
+jwt:
+    secret-key: Vlw3Ey2VBsY2t9V7zq57TejMn2VUyzb7lYcfPQye08f7M23GVA9XkHa
