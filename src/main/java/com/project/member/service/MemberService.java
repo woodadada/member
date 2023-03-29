@@ -16,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,10 +39,6 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    private final MemberDetailsService memberDetailsService;
-
-    private final SmsAuthenticationService smsAuthenticationService;
-
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -59,7 +54,7 @@ public class MemberService {
         }
 
         // 회원 가입 SMS 인증
-        smsAuthenticationService.smsAuthentication(memberJoinRequest.getPhoneNumber());
+//        smsAuthenticationService.smsAuthentication(memberJoinRequest.getPhoneNumber());
 
         String rawPassword = memberJoinRequest.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
@@ -77,21 +72,31 @@ public class MemberService {
     }
 
     @Transactional
-    public Member updatePassword(MemberPasswordRequest memberPasswordRequest) {
+    public MemberDto updatePassword(MemberPasswordRequest memberPasswordRequest) {
 
         // 인증 후 비밀번호 변경
         Optional<Member> byEmail = memberRepository.findByEmail(memberPasswordRequest.getEmail());
-        if(byEmail.isPresent()) {
+        if(!byEmail.isPresent()) {
             throw new SiteException(ErrorCode.MEMBER_NOT_FOUNT);
         }
         Member member = byEmail.get();
         // SMS 번호 인증
-        smsAuthenticationService.smsAuthentication(member.getPhoneNumber());
+//        smsAuthenticationService.smsAuthentication(member.getPhoneNumber());
 
         String rawPassword = memberPasswordRequest.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         member.updatePassword(encPassword);
-        return memberRepository.save(member);
+        Member saveMember = memberRepository.save(member);
+
+        MemberDto memberDto = MemberDto.builder()
+                .id(saveMember.getId())
+                .name(saveMember.getName())
+                .nickName(saveMember.getNickName())
+                .email(saveMember.getEmail())
+                .phoneNumber(saveMember.getPhoneNumber())
+                .build();
+
+        return memberDto;
     }
 
     public MemberDto getMemberInfo() {

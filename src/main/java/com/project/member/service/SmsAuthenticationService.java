@@ -68,7 +68,7 @@ public class SmsAuthenticationService {
         return smsAuthenticationRepository.save(smsAuthentication);
     }
 
-    public void smsAuthentication(String phoneNumber) {
+    public void smsAuthenticationByPhoneNumber(String phoneNumber) {
         Optional<SmsAuthentication> byPhoneNumberAndAuthenticationYn = smsAuthenticationRepository.findByPhoneNumberAndAuthenticationYn(phoneNumber, DictionaryKey.Y.getKey());
         if(!byPhoneNumberAndAuthenticationYn.isPresent()) {
             throw new SiteException(ErrorCode.NOT_AUTHENTICATION_NUMBER_CODE);
