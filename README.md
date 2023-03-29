@@ -41,8 +41,7 @@
 
 - 개선점
   - 인증번호를 발송하는 부분을 Kafka 또는 RabbitMQ와 같은 메세지 큐를 사용하여 분리
-  - 인증번호 데이터를 일정 시간 또는 회원가입, 비밀번호 완료 시점에 삭제
-    - Redis, MongoDB를 사용한다면 만료 시간 설정으로 자동 삭제 처리
+  - Redis, MongoDB를 사용한다면 만료 시간 설정으로 자동 삭제 처리
 
 ## DB 설계
 <img width="587" alt="image" src="https://user-images.githubusercontent.com/60130985/228501408-b4a2754d-a721-4b70-bbaa-b1ca7b0cec57.png">
