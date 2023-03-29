@@ -80,4 +80,8 @@ public class SmsAuthenticationService {
             throw new SiteException(ErrorCode.OVER_EXPIRED_TIME);
         }
     }
+
+    public void deleteSmsAuthenticationByPhoneNumber(String phoneNumber) {
+        smsAuthenticationRepository.deleteByPhoneNumber(phoneNumber);
+    }
 }

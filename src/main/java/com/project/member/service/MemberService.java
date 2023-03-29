@@ -8,6 +8,9 @@ import com.project.member.model.entity.Member;
 import com.project.member.model.request.MemberJoinRequest;
 import com.project.member.model.request.MemberLoginRequest;
 import com.project.member.model.request.MemberPasswordRequest;
+import com.project.member.model.response.MemberInfoResponse;
+import com.project.member.model.response.MemberJoinResponse;
+import com.project.member.model.response.MemberPasswordResponse;
 import com.project.member.repository.MemberRepository;
 import com.project.member.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +52,7 @@ public class MemberService {
 
 
     @Transactional
-    public Member createMember(MemberJoinRequest memberJoinRequest) {
+    public MemberJoinResponse createMember(MemberJoinRequest memberJoinRequest) {
         Optional<Member> byEmail = memberRepository.findByEmail(memberJoinRequest.getEmail());
         if(byEmail.isPresent()) {
             throw new SiteException(ErrorCode.DUPLICATE_MEMBER);
@@ -60,9 +63,24 @@ public class MemberService {
 
         String rawPassword = memberJoinRequest.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
-        Member member = new Member(memberJoinRequest, encPassword);
+        Member saveMember = new Member(memberJoinRequest, encPassword);
 
-        return memberRepository.save(member);
+        Member member = memberRepository.save(saveMember);
+
+        smsAuthenticationService.deleteSmsAuthenticationByPhoneNumber(member.getPhoneNumber());
+
+        MemberDto memberDto = MemberDto.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .nickName(member.getNickName())
+                .email(member.getEmail())
+                .phoneNumber(member.getPhoneNumber())
+                .build();
+
+        MemberJoinResponse memberInfoResponse = new MemberJoinResponse();
+        memberInfoResponse.setMemberDto(memberDto);
+
+        return memberInfoResponse;
     }
 
     public String loginMember(MemberLoginRequest memberLoginRequest) {
@@ -74,7 +92,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDto updatePassword(MemberPasswordRequest memberPasswordRequest) {
+    public MemberPasswordResponse updatePassword(MemberPasswordRequest memberPasswordRequest) {
 
         // 인증 후 비밀번호 변경
         Optional<Member> byEmail = memberRepository.findByEmail(memberPasswordRequest.getEmail());
@@ -90,6 +108,8 @@ public class MemberService {
         member.updatePassword(encPassword);
         Member saveMember = memberRepository.save(member);
 
+        smsAuthenticationService.deleteSmsAuthenticationByPhoneNumber(member.getPhoneNumber());
+
         MemberDto memberDto = MemberDto.builder()
                 .id(saveMember.getId())
                 .name(saveMember.getName())
@@ -98,10 +118,13 @@ public class MemberService {
                 .phoneNumber(saveMember.getPhoneNumber())
                 .build();
 
-        return memberDto;
+        MemberPasswordResponse memberPasswordResponse = new MemberPasswordResponse();
+        memberPasswordResponse.setMemberDto(memberDto);
+
+        return memberPasswordResponse;
     }
 
-    public MemberDto getMemberInfo() {
+    public MemberInfoResponse getMemberInfo() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         MemberDetails memberDetails = (MemberDetails) principal;
         Member member = memberDetails.getMember();
@@ -114,7 +137,10 @@ public class MemberService {
                 .phoneNumber(member.getPhoneNumber())
                 .build();
 
-        return memberDto;
+        MemberInfoResponse memberInfoResponse = new MemberInfoResponse();
+        memberInfoResponse.setMemberDto(memberDto);
+
+        return memberInfoResponse;
     }
 
     public Optional<Member> getMemberByPhoneNumber(String phoneNumber) {
