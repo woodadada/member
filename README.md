@@ -25,10 +25,6 @@
   > ORM : JPA\
   > 접속 Base URI : `http://localhost:8080`
 
-### 실행 방법
-  > 해당 프로젝트 최상단 jar 폴더에 blog-search.jar 파일이 위치해있습니다.
-  > 다운로드 이후 해당 파일 폴더에서 터미널 접속 후  `java -jar blog-search.jar` 로 실행이 가능합니다.
-
 ## 🧏‍♂️ 설계와 개선점
 
 - 설계
