@@ -43,6 +43,8 @@ public class MemberService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
+    private final SmsAuthenticationService smsAuthenticationService;
+
     private final JwtUtil jwtUtil;
 
 
@@ -54,7 +56,7 @@ public class MemberService {
         }
 
         // 회원 가입 SMS 인증
-//        smsAuthenticationService.smsAuthentication(memberJoinRequest.getPhoneNumber());
+        smsAuthenticationService.smsAuthenticationByPhoneNumber(memberJoinRequest.getPhoneNumber());
 
         String rawPassword = memberJoinRequest.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
@@ -81,7 +83,7 @@ public class MemberService {
         }
         Member member = byEmail.get();
         // SMS 번호 인증
-//        smsAuthenticationService.smsAuthentication(member.getPhoneNumber());
+        smsAuthenticationService.smsAuthenticationByPhoneNumber(member.getPhoneNumber());
 
         String rawPassword = memberPasswordRequest.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);

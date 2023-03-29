@@ -18,7 +18,7 @@ public class SmsUtil {
     // 기본 생성자가 만들어지는 것 방지
     private SmsUtil() {}
 
-    private static final String SMS_STRING = "인증번호[%s]를 입력해주세요.\n유효 시간은 3분입니다.";
+    private static final String SMS_STRING = "인증번호[%s]를 입력해주세요.\n유효시간은 3분입니다.";
 
     // 인증코드 만들기
     public static String createNumberCode() {
